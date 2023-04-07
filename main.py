@@ -1,10 +1,11 @@
 import tkinter as tk
+from math import sqrt
 
 def run():
 
     # Main Window
     main_window = tk.Tk()
-    main_window.geometry("369x430")
+    main_window.geometry("460x435")
     main_window.title("My Own Calculator")
     main_window.resizable(width=False, height=False)
     main_window.iconbitmap("calculator.ico")
@@ -20,9 +21,13 @@ def run():
     # Function to calculate
     def calculate():
         expression = expression_entry["text"]
-        result = eval(expression)
-        expression_entry["text"] = result
-        expression_entry["bg"] = "#D0FE00"
+        try:
+            result = eval(expression)
+            expression_entry["text"] = result
+            expression_entry["bg"] = "#D0FE00"
+        except:
+            expression_entry["text"] = "Math Error or Syntax Error"
+            expression_entry["bg"] = "#D0FE00"
 
     # Button "Equal to"
     equal_to_button = tk.Button(bg, text = "=", padx=0, height=2, width=7, font="bold", bg="#F9564F", fg="#FFF", command=calculate)
@@ -81,12 +86,27 @@ def run():
 
     div = tk.Button(bg, text = "/", width=7, height=3, cursor="hand2", command=lambda:add_symbol("/"), bg="#7B1E7A", font="bold")
     div.grid(column = 3, row = 4, padx=1.5, pady=1.5)
+    
+    point = tk.Button(bg, text = ".", width=7, height=3, cursor="hand2", command=lambda:add_symbol("."), bg="#7B1E7A", font="bold")
+    point.grid(column = 1, row = 4, padx=1.5, pady=1.5)
+    
+    left_parent = tk.Button(bg, text = "(", width=7, height=3, cursor="hand2", command=lambda:add_symbol("("), bg="#7B1E7A", font="bold")
+    left_parent.grid(column = 4, row = 1, padx=1.5, pady=1.5)
+    
+    right_parent = tk.Button(bg, text = ")", width=7, height=3, cursor="hand2", command=lambda:add_symbol(")"), bg="#7B1E7A", font="bold")
+    right_parent.grid(column = 4, row = 2, padx=1.5, pady=1.5)
+    
+    power = tk.Button(bg, text = "^", width=7, height=3, cursor="hand2", command=lambda:add_symbol("**"), bg="#7B1E7A", font="bold")
+    power.grid(column = 4, row = 3, padx=1.5, pady=1.5)
+    
+    sqrt = tk.Button(bg, text = "sqrt", width=7, height=3, cursor="hand2", command=lambda:add_symbol("sqrt("), bg="#7B1E7A", font="bold")
+    sqrt.grid(column = 4, row = 4, padx=1.5, pady=1.5)
 
     # Functions Buttons
-    clear = tk.Button(bg, text = "clear", width=7, height=3, cursor="hand2", command=clear_button, bg="#F3C677", fg="#F00", font="bold")
-    clear.grid(column = 1, row = 4, padx=1.5, pady=1.5)
+    clear = tk.Button(bg, text = "CLR", width=7, height=2, cursor="hand2", command=clear_button, bg="#F3C677", fg="#F00", font="bold")
+    clear.grid(column = 4, row = 0, padx=1.5, pady=1.5)
 
-    memory_button = tk.Button(bg, text = "memory", width=7, height=3, cursor="hand2", command=memory_store, bg="#F3C677", fg="#FFF", font="bold")
+    memory_button = tk.Button(bg, text = "ME", width=7, height=3, cursor="hand2", command=memory_store, bg="#F3C677", fg="#FFF", font="bold")
     memory_button.grid(column = 2, row = 4, padx=1.5, pady=1.5)
 
     # Execution Loop
