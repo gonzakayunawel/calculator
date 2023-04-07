@@ -5,7 +5,7 @@ def run():
 
     # Main Window
     main_window = tk.Tk()
-    main_window.geometry("460x435")
+    main_window.geometry("460x550")
     main_window.title("My Own Calculator")
     main_window.resizable(width=False, height=False)
     main_window.iconbitmap("calculator.ico")
@@ -21,13 +21,19 @@ def run():
     # Function to calculate
     def calculate():
         expression = expression_entry["text"]
-        try:
-            result = eval(expression)
-            expression_entry["text"] = result
+        
+        if len(expression) > 23:
+            expression_entry["text"] = "Max Long Error"
             expression_entry["bg"] = "#D0FE00"
-        except:
-            expression_entry["text"] = "Math Error or Syntax Error"
-            expression_entry["bg"] = "#D0FE00"
+        else:
+            try:
+                result = eval(expression)
+                round_result = round(result, 5)
+                expression_entry["text"] = round_result
+                expression_entry["bg"] = "#D0FE00"
+            except:
+                expression_entry["text"] = "Math Error or Syntax Error"
+                expression_entry["bg"] = "#D0FE00"
 
     # Button "Equal to"
     equal_to_button = tk.Button(bg, text = "=", padx=0, height=2, width=7, font="bold", bg="#F9564F", fg="#FFF", command=calculate)
@@ -48,6 +54,11 @@ def run():
         memory = expression_entry["text"]
         clear_button()
         expression_entry["text"] = str(memory)
+
+    def erase_button():
+        expression = str(expression_entry["text"])
+        expresion_erased = expression[:(len(expression)-1)]
+        expression_entry["text"] = str(expresion_erased)
 
     # Numbers Buttons
     one = tk.Button(bg, text = "1", width=7, height=3, cursor="hand2", command=lambda:add_symbol("1"), bg="#B33F62", font="bold")
@@ -101,13 +112,22 @@ def run():
     
     sqrt = tk.Button(bg, text = "sqrt", width=7, height=3, cursor="hand2", command=lambda:add_symbol("sqrt("), bg="#7B1E7A", font="bold")
     sqrt.grid(column = 4, row = 4, padx=1.5, pady=1.5)
+    
+    mod = tk.Button(bg, text = "mod", width=7, height=3, cursor="hand2", command=lambda:add_symbol("%"), bg="#7B1E7A", font="bold")
+    mod.grid(column = 1, row = 5, padx=1.5, pady=1.5)
+    
+    pi_value = tk.Button(bg, text = "π", width=7, height=3, cursor="hand2", command=lambda:add_symbol("3.1415"), bg="#7B1E7A", font="bold")
+    pi_value.grid(column = 2, row = 5, padx=1.5, pady=1.5)
 
     # Functions Buttons
     clear = tk.Button(bg, text = "CLR", width=7, height=2, cursor="hand2", command=clear_button, bg="#F3C677", fg="#F00", font="bold")
     clear.grid(column = 4, row = 0, padx=1.5, pady=1.5)
 
-    memory_button = tk.Button(bg, text = "ME", width=7, height=3, cursor="hand2", command=memory_store, bg="#F3C677", fg="#FFF", font="bold")
+    memory_button = tk.Button(bg, text = "MEM", width=7, height=3, cursor="hand2", command=memory_store, bg="#F3C677", fg="#FFF", font="bold")
     memory_button.grid(column = 2, row = 4, padx=1.5, pady=1.5)
+    
+    erase = tk.Button(bg, text = "ERASE", width=7, height=3, cursor="hand2", command=erase_button, bg="#F3C677", fg="#F00", font="bold")
+    erase.grid(column = 0, row = 5, padx=1.5, pady=1.5)
 
     # Execution Loop
     tk.mainloop()
